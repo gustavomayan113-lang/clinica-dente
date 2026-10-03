@@ -101,8 +101,6 @@
     const hero = $(".hero");
     if (!hero) return;
 
-    const title = $(".hero__title", hero);
-    const words = splitWords(title);
     const items = $$("[data-hero-item]", hero);
     const mediaMain = $(".hero__media-main", hero);
     const mediaSide = $$(".hero__media-side", hero);
@@ -113,15 +111,6 @@
       defaults: { ease: EASE, duration: 1 },
       delay: 0.15,
     });
-
-    if (words.length) {
-      tl.fromTo(
-        words,
-        { yPercent: 118, rotate: 2 },
-        { yPercent: 0, rotate: 0, duration: 1.25, stagger: 0.045 },
-        0
-      );
-    }
 
     tl.to(items, { opacity: 1, y: 0, duration: 0.9, stagger: 0.09 }, 0.25);
 
@@ -247,6 +236,7 @@
       if (!words.length) return;
       gsap.to(words, {
         yPercent: 0,
+        y: 0,
         rotate: 0,
         duration: 1.15,
         ease: EASE,

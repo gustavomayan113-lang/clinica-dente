@@ -59,15 +59,13 @@
   will-change: transform;
 }
 
-/* Hero: sequência de entrada */
-.js .hero__title .word,
+/* Hero: títulos com quebra em palavras (demais páginas) */
 .js [data-split-words] .word {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
 }
 
-.js .hero__title .word__inner,
 .js [data-split-words] .word__inner {
   display: inline-block;
   transform: translateY(115%);
@@ -104,7 +102,6 @@
 }
 
 .no-gsap [data-split] .line__inner,
-.no-gsap .hero__title .word__inner,
 .no-gsap [data-split-words] .word__inner {
   transform: none !important;
 }

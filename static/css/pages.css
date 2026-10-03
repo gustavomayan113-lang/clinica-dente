@@ -44,6 +44,19 @@
   color: transparent;
 }
 
+/* Mesmo caso do hero da home: gradiente vai para as palavras quebradas. */
+.page-hero__title[data-split-done] em {
+  background: none;
+  color: inherit;
+}
+
+.page-hero__title[data-split-done] em .word__inner {
+  background: var(--grad-text-invert);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .page-hero__lead {
   max-width: 42ch;
   color: rgba(226, 236, 255, 0.7);

@@ -484,6 +484,10 @@
   margin-bottom: 1.5rem;
 }
 
+.hero__title-line {
+  display: block;
+}
+
 .hero__title em {
   font-family: var(--font-serif);
   font-style: italic;
