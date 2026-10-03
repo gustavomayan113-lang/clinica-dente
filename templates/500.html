@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}Erro interno | {{ clinic.name }} Odontologia{% endblock %}
+
+{% block content %}
+<section class="error-page grain">
+  <span class="glow glow--sky" style="width: 26rem; height: 26rem; bottom: 10%; right: 12%"></span>
+
+  <div class="container container--text">
+    <span class="eyebrow eyebrow--center" data-reveal>Erro 500</span>
+    <p class="error-page__code" data-reveal="scale">500</p>
+    <h1 style="font-size: clamp(1.6rem, 3.4vw, 2.6rem); margin-top: 1.5rem" data-split>
+      Algo travou por aqui. Respire.
+    </h1>
+    <p class="lead" style="margin: 1.25rem auto 0" data-reveal>
+      Nossa equipe técnica já foi notificada. Enquanto resolvemos, você pode tentar
+      novamente em instantes ou falar com a gente direto.
+    </p>
+
+    <div class="error-page__actions" data-reveal>
+      <a class="btn btn--primary btn--lg" href="/" data-magnetic="0.25">
+        <span>Voltar ao início</span>
+        <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+      </a>
+      <a class="btn btn--outline btn--lg" href="{{ clinic.phone_link }}">{{ clinic.phone }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

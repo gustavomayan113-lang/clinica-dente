@@ -1,0 +1,109 @@
+{% load static site_tags %}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ seo_default.title }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ seo_default.description }}{% endblock %}">
+  <meta name="keywords" content="{{ seo_default.keywords }}">
+  <meta name="author" content="{{ clinic.full_name }}">
+  <meta name="theme-color" content="#061430">
+  <meta name="color-scheme" content="light">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="{{ clinic.full_name }}">
+  <meta property="og:title" content="{% block og_title %}{{ seo_default.title }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ seo_default.description }}{% endblock %}">
+  <meta property="og:image" content="{{ static_url }}img/hero-principal.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ seo_default.title }}">
+  <meta name="twitter:description" content="{{ seo_default.description }}">
+
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'fonts/sora-normal-700.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'fonts/inter-normal-400.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'fonts/instrument-serif-italic-400.woff2' %}" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/lenis/lenis.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+  <link rel="stylesheet" href="{% static 'css/motion.css' %}">
+
+  <script>
+    document.documentElement.classList.add("js");
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": "{{ clinic.full_name|escapejs }}",
+    "description": "{{ seo_default.description|escapejs }}",
+    "foundingDate": "{{ clinic.founded }}",
+    "telephone": "{{ clinic.phone }}",
+    "email": "{{ clinic.email }}",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ clinic.address|escapejs }}",
+      "addressLocality": "Barueri",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": -23.5037, "longitude": -46.8487 },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "19:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "312"
+    }
+  }
+  </script>
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  {% include "partials/preloader.html" %}
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+  {% include "partials/header.html" %}
+  {% include "partials/mobile-menu.html" %}
+
+  <main id="conteudo">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials/footer.html" %}
+
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Galeria da clínica" data-lenis-prevent>
+    <figure class="lightbox__figure">
+      <button class="lightbox__close" type="button" aria-label="Fechar galeria">{% icon "close" 20 %}</button>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Imagem anterior">{% icon "chevron-left" 20 %}</button>
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+      <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Próxima imagem">{% icon "chevron-right" 20 %}</button>
+      <figcaption class="lightbox__caption"></figcaption>
+    </figure>
+  </div>
+
+  <button class="to-top" type="button" aria-label="Voltar ao topo">{% icon "arrow-up-right" 20 %}</button>
+
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span></span></div>
+
+  <script src="{% static 'vendor/lenis/lenis.min.js' %}" defer></script>
+  <script src="{% static 'vendor/gsap/gsap.min.js' %}" defer></script>
+  <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}" defer></script>
+  <script src="{% static 'vendor/gsap/CustomEase.min.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/animations.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

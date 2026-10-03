@@ -1,0 +1,31 @@
+{% load static site_tags %}
+
+<div class="mobile-menu" id="menu-mobile" data-lenis-prevent>
+  <nav class="mobile-menu__list" aria-label="Navegação mobile">
+    {% for item in nav %}
+      <a class="mobile-menu__link" href="{{ item.href }}">
+        <span class="mobile-menu__index">0{{ forloop.counter }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    {% endfor %}
+  </nav>
+
+  <div class="mobile-menu__footer">
+    <div class="mobile-menu__meta">
+      <span>Atendimento</span>
+      <a href="{{ clinic.phone_link }}">{{ clinic.phone }}</a>
+      <a href="{{ clinic.whatsapp_link }}" rel="noopener" target="_blank">WhatsApp {{ clinic.whatsapp }}</a>
+      <a href="mailto:{{ clinic.email }}">{{ clinic.email }}</a>
+    </div>
+
+    <div class="mobile-menu__meta">
+      <span>Endereço</span>
+      <p>{{ clinic.address }}<br>{{ clinic.city }}</p>
+    </div>
+
+    <a class="btn btn--primary" href="/contato/" data-magnetic="0.2">
+      <span>Agendar avaliação</span>
+      <span class="btn__icon">{% icon "arrow-up-right" 14 %}</span>
+    </a>
+  </div>
+</div>

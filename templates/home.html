@@ -1,0 +1,515 @@
+{% extends "base.html" %}
+{% load static site_tags l10n %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero grain" id="inicio">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <span class="glow glow--blue" style="width: 30rem; height: 30rem; top: -8rem; right: -6rem"></span>
+  <span class="glow glow--sky" style="width: 22rem; height: 22rem; bottom: -6rem; left: 10%"></span>
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <span class="pill pill--dot hero__eyebrow" data-hero-item>Agenda aberta hoje · 8h às 19h</span>
+
+      <h1 class="hero__title">
+        O seu sorriso,<br>iluminado <em>por dentro.</em>
+      </h1>
+
+      <p class="lead hero__lead" data-hero-item>
+        Odontologia digital em Alphaville com tempo de escuta, diagnóstico 3D
+        e um plano que você entende antes de qualquer procedimento.
+      </p>
+
+      <div class="hero__actions" data-hero-item>
+        <a class="btn btn--primary btn--lg" href="/contato/" data-magnetic="0.25" data-cursor="Agendar">
+          <span>Agendar avaliação</span>
+          <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+        </a>
+        <a class="btn btn--outline btn--lg" href="/servicos/" data-magnetic="0.18" data-cursor="Ver">
+          <span>Conhecer tratamentos</span>
+        </a>
+      </div>
+
+      <div class="hero__trust" data-hero-item>
+        {% for badge in hero_badges %}
+          <div class="hero__trust-item">
+            <span class="hero__trust-value mono-num">{{ badge.value }}</span>
+            <span class="hero__trust-label">{{ badge.label }}</span>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="scroll-cue" data-hero-item>
+        <span class="scroll-cue__track" aria-hidden="true"></span>
+        <span>Rola para conhecer</span>
+      </div>
+    </div>
+
+    <div class="hero__media" data-hero-item>
+      <div class="hero__media-main">
+        {% img "hero-principal.webp" "Dente claro em consultório odontológico moderno da Lumina" width="1100" height="1375" loading="eager" %}
+      </div>
+
+      <div class="hero__media-side hero__media-side--tall">
+        {% img "hero-detalhe.webp" "Detalhe da cadeira odontológica da clínica" width="760" height="760" loading="eager" %}
+      </div>
+
+      <div class="hero__floating hero__floating--rating">
+        <span class="hero__floating-icon">{% icon "star" 18 %}</span>
+        <span class="hero__floating-text">
+          <span class="hero__floating-title">4,9 / 5</span>
+          <span class="hero__floating-sub">312 avaliações</span>
+        </span>
+      </div>
+
+      <div class="hero__floating hero__floating--scan">
+        <span class="hero__floating-icon">{% icon "scan3d" 18 %}</span>
+        <span class="hero__floating-text">
+          <span class="hero__floating-title">Scan 3D</span>
+          <span class="hero__floating-sub">3 minutos, sem molde</span>
+        </span>
+      </div>
+
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <path id="sealPath" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0" />
+          </defs>
+          <text font-size="8.5" letter-spacing="2.6" fill="currentColor" class="mono-num">
+            <textPath href="#sealPath" startOffset="0">
+              CLÍNICA ODONTOLÓGICA · LUMINA · ALPHAVILLE ·
+            </textPath>
+          </text>
+        </svg>
+        <span class="seal__core">{% icon "tooth" 18 %}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CREDENCIAIS ================= -->
+<section class="credentials" aria-label="Credenciais e diferenciais">
+  <div class="marquee" data-speed="42">
+    <div class="marquee__track">
+      {% for item in credentials %}
+        <span class="marquee__item">{{ item }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section class="section" id="clinica">
+  <div class="container about__grid">
+    <div class="about__text">
+      <span class="eyebrow" data-reveal>{{ about.eyebrow }}</span>
+      <h2 data-split>Uma clínica feita para gente, não para pacientes.</h2>
+      <p class="lead" data-reveal>{{ about.lead }}</p>
+      {% for paragraph in about.paragraphs %}
+        <p class="muted" data-reveal>{{ paragraph }}</p>
+      {% endfor %}
+
+      <div class="about__signature" data-reveal>
+        <span class="about__signature-mark">{{ about.signature|first }}</span>
+        <span>
+          <strong style="display: block; font-family: var(--font-display); font-size: 1.05rem">{{ about.signature }}</strong>
+          <span class="muted" style="font-size: var(--fs-tiny)">{{ about.role }}</span>
+        </span>
+      </div>
+
+      <div class="row" data-reveal style="margin-top: 1rem">
+        <a class="link-arrow" href="/equipe/">Conheça a equipe {% icon "arrow-up-right" 16 %}</a>
+      </div>
+    </div>
+
+    <div class="about__collage">
+      <div class="about__collage-main" data-reveal="clip">
+        {% img "sobre-principal.webp" "Consultório da Lumina em Alphaville" width="1000" height="1250" %}
+      </div>
+      <div class="about__collage-side" data-reveal="clip">
+        {% img "sobre-detalhe.webp" "Materiais de higiene odontológica" width="720" height="720" %}
+      </div>
+      <div class="about__collage-side" data-reveal="clip">
+        {% img "sobre-detalhe-2.webp" "Profissional da Lumina em atendimento" width="760" height="950" %}
+      </div>
+
+      <div class="about__stat-card" data-reveal>
+        <span class="about__stat-value mono-num" data-counter="12400" data-suffix="+">0</span>
+        <span class="about__stat-label">sorrisos desde 2016</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIFERENCIAIS ================= -->
+<section class="section section--ice">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow" data-reveal>O que nos torna diferentes</span>
+        <h2 data-split>Ciência, tempo e cuidado no mesmo plano.</h2>
+      </div>
+      <div class="section-head__aside">
+        <p class="muted" data-reveal>
+          Quatro compromissos que valem mais que qualquer promessa de resultado
+          rápido. Eles aparecem em cada detalhe do seu atendimento.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid--4" data-reveal-group>
+      {% for feature in features %}
+        <article class="card" data-tilt="3">
+          <span class="card__index">{{ feature.index }}</span>
+          <span class="service-card__icon">{% icon feature.icon 22 %}</span>
+          <h3 class="card__title">{{ feature.title }}</h3>
+          <p class="card__text">{{ feature.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= NÚMEROS ================= -->
+<section class="section section--navy section--tight grain">
+  <span class="glow glow--sky" style="width: 26rem; height: 26rem; top: -10rem; right: 6%"></span>
+  <div class="container">
+    <div class="grid grid--4" data-reveal-group>
+      {% for stat in stats %}
+        <div class="stat">
+          <span class="stat__value" data-counter="{{ stat.value|unlocalize }}" data-decimals="{{ stat.decimals|default:0 }}" data-suffix="{{ stat.suffix }}">0</span>
+          <span class="stat__label">{{ stat.label }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVIÇOS ================= -->
+<section class="section" id="tratamentos">
+  <div data-horizontal-wrap>
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow" data-reveal>Tratamentos</span>
+          <h2 data-split>Do preventivo à reabilitação completa.</h2>
+        </div>
+        <div class="section-head__aside">
+          <p class="muted" data-reveal>
+            Oito frentes de atendimento, um só princípio: entender o caso antes de
+            indicar qualquer procedimento.
+          </p>
+          <p class="services-hint" style="margin-top: 1.25rem" data-scroll-hint="services" aria-hidden="true">
+            <span class="services-hint__rail"><span></span></span>
+            <span>Arraste para ver mais</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="services-track" data-horizontal-track data-hint-scroller="services">
+        {% for servico in services_featured %}
+          <article class="service-card" data-reveal="scale">
+            <div class="service-card__media">
+              <span class="service-card__number">{{ servico.number }}</span>
+              {% img servico.image servico.title width="900" height="675" %}
+            </div>
+            <div class="service-card__body">
+              <span class="service-card__icon">{% icon servico.icon 22 %}</span>
+              <h3 class="service-card__title">{{ servico.title }}</h3>
+              <p class="service-card__text">{{ servico.short }}</p>
+              <div class="service-card__meta">
+                <span>{{ servico.duration }}</span>
+                <a class="link-arrow" href="/servicos/{{ servico.slug }}/" aria-label="Ver {{ servico.title }}">
+                  Detalhes {% icon "arrow-up-right" 15 %}
+                </a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container" data-reveal>
+    <a class="btn btn--outline" href="/servicos/" data-magnetic="0.2">
+      <span>Ver todos os tratamentos</span>
+      <span class="btn__icon">{% icon "arrow-up-right" 15 %}</span>
+    </a>
+  </div>
+</section>
+
+<!-- ================= JORNADA ================= -->
+<section class="section section--ice journey" id="jornada">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow--center" data-reveal>Como funciona</span>
+      <h2 data-split>Quatro passos, zero surpresa.</h2>
+    </div>
+
+    <div class="journey__grid">
+      <span class="journey__line"><span></span></span>
+      {% for step in journey %}
+        <article class="journey__step" data-reveal>
+          <span class="journey__node">{% icon step.icon 22 %}</span>
+          <h3 class="journey__step-title">{{ step.number }} · {{ step.title }}</h3>
+          <p class="journey__step-text">{{ step.text }}</p>
+          <span class="journey__step-detail">{{ step.detail }}</span>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= TECNOLOGIA ================= -->
+<section class="section section--navy grain">
+  <span class="glow glow--blue" style="width: 32rem; height: 32rem; bottom: -14rem; left: -6rem; opacity: .45"></span>
+
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow eyebrow--invert" data-reveal>Estrutura e tecnologia</span>
+        <h2 class="text-grad-invert" data-split>Precisão que o paciente sente.</h2>
+      </div>
+      <div class="section-head__aside">
+        <p class="muted" data-reveal>
+          Equipamento de ponta não substitui cuidado — mas torna o diagnóstico
+          mais rápido, mais seguro e mais previsível.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid--3" data-reveal-group>
+      {% for item in tech %}
+        <article class="tech-card" data-tilt="4">
+          <div class="tech-card__top">
+            <span class="tech-card__icon">{% icon item.icon 22 %}</span>
+            <span class="tech-card__metric">{{ item.metric }}</span>
+          </div>
+          <h3 class="tech-card__title">{{ item.title }}</h3>
+          <p class="tech-card__text">{{ item.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERIA ================= -->
+<section class="section" id="estrutura">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow" data-reveal>A estrutura</span>
+        <h2 data-split>Um espaço pensado para acalmar.</h2>
+      </div>
+      <div class="section-head__aside">
+        <p class="muted" data-reveal>
+          Nove ambientes, luz natural, ergonomia em cada detalhe e uma recepção
+          que parece um café — não uma clínica.
+        </p>
+      </div>
+    </div>
+
+    <div class="gallery-grid" data-reveal-group>
+      {% for item in gallery %}
+        <figure class="gallery-grid__item {% cycle 'gallery-grid__item--tall' '' 'gallery-grid__item--wide' '' %}"
+                data-lightbox="{{ static_url }}img/{{ item.image }}"
+                data-caption="{{ item.caption }}"
+                data-alt="{{ item.caption }}"
+                data-cursor="Ver"
+                tabindex="0"
+                role="button"
+                aria-label="Ampliar imagem: {{ item.caption }}">
+          {% img item.image item.caption width="900" height="900" %}
+          <figcaption class="gallery-grid__overlay">
+            <span class="gallery-grid__tag">{{ item.tag }}</span>
+            <span class="gallery-grid__caption">{{ item.caption }}</span>
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= EQUIPE ================= -->
+<section class="section section--ice">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow" data-reveal>Equipe</span>
+        <h2 data-split>Quem cuida do seu sorriso.</h2>
+      </div>
+      <div class="section-head__aside">
+        <p class="muted" data-reveal>
+          Quatro especialistas, doze profissionais de apoio e um compromisso
+          simples: responder toda mensagem em até um dia útil.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid--4" data-reveal-group>
+      {% for member in team %}
+        <article class="team-card">
+          <div class="team-card__media">
+            {% img member.image member.name width="900" height="900" %}
+            <div class="team-card__overlay">
+              <p class="card__text" style="color: rgba(255,255,255,.85)">{{ member.short }}</p>
+            </div>
+          </div>
+          <div class="team-card__body">
+            <h3 class="team-card__name">{{ member.name }}</h3>
+            <span class="team-card__role">{{ member.role }}</span>
+            <span class="team-card__cro">{{ member.cro }}</span>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="row" style="margin-top: 2.5rem" data-reveal>
+      <a class="btn btn--outline" href="/equipe/" data-magnetic="0.2">
+        <span>Conhecer a equipe completa</span>
+        <span class="btn__icon">{% icon "arrow-up-right" 15 %}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEPOIMENTOS ================= -->
+<section class="section section--navy grain testimonials" id="depoimentos">
+  <span class="glow glow--sky" style="width: 28rem; height: 28rem; top: -12rem; right: 12%"></span>
+
+  <div class="container" data-carousel>
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow eyebrow--invert" data-reveal>Depoimentos</span>
+        <h2 class="text-grad-invert" data-split>Quem já sentiu a diferença.</h2>
+      </div>
+      <div class="section-head__aside testimonials__nav">
+        <span class="testimonials__progress" data-carousel-progress><span></span></span>
+        <button class="testimonials__btn" type="button" data-carousel-prev aria-label="Depoimento anterior">{% icon "chevron-left" 18 %}</button>
+        <button class="testimonials__btn" type="button" data-carousel-next aria-label="Próximo depoimento">{% icon "chevron-right" 18 %}</button>
+      </div>
+    </div>
+
+    <div class="testimonials__track" data-carousel-track>
+      {% for item in testimonials %}
+        <article class="testimonial-card" data-reveal="scale">
+          {% stars item.rating %}
+          <blockquote class="testimonial-card__quote">“{{ item.quote }}”</blockquote>
+          <div class="testimonial-card__footer">
+            <span class="avatar">{% img item.image item.name width="240" height="240" %}</span>
+            <span>
+              <span class="testimonial-card__name">{{ item.name }}</span><br>
+              <span class="testimonial-card__role">{{ item.role }}</span>
+            </span>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section">
+  <div class="container faq__layout">
+    <div>
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Dúvidas frequentes</span>
+        <h2 data-split>Perguntas que sempre chegam.</h2>
+      </div>
+
+      <div class="faq" data-reveal>
+        {% for item in faq %}
+          <div class="faq__item {% if forloop.first %}is-open{% endif %}">
+            <button class="faq__trigger" type="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              <span>{{ item.question }}</span>
+              <span class="faq__sign" aria-hidden="true"></span>
+            </button>
+            <div class="faq__panel">
+              <div class="faq__panel-inner">
+                <p>{{ item.answer }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <aside class="faq__aside" data-reveal="clip">
+      {% img "faq-fundo.webp" "Consultório da Lumina para atendimento" width="1200" height="1600" %}
+      <div class="faq__aside-card">
+        <p style="font-size: var(--fs-tiny); color: var(--muted); margin-bottom: .35rem">Ainda ficou alguma dúvida?</p>
+        <p class="faq__aside-phone">{{ clinic.phone }}</p>
+        <a class="btn btn--navy btn--sm btn--block" style="margin-top: 1rem" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener">
+          <span>Falar com a equipe</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= CHAMADA FINAL ================= -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta grain" data-reveal="scale">
+      <span class="glow glow--blue" style="width: 24rem; height: 24rem; top: -10rem; right: -4rem"></span>
+
+      <div class="cta__inner">
+        <div>
+          <span class="eyebrow eyebrow--invert" data-reveal>Vamos conversar</span>
+          <h2 class="text-grad-invert" style="margin: 1rem 0" data-split>A primeira conversa é por nossa conta.</h2>
+          <p class="lead" style="color: rgba(226,236,255,.7)" data-reveal>
+            Agende uma escuta inicial, conheça a equipe e receba um orçamento em PDF
+            com valores fechados — sem compromisso.
+          </p>
+
+          <div class="cta__actions">
+            <a class="btn btn--invert btn--lg" href="/contato/" data-magnetic="0.25" data-cursor="Agendar">
+              <span>Agendar avaliação</span>
+              <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+            </a>
+            <a class="btn btn--ghost-light btn--lg" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener">
+              <span>WhatsApp {{ clinic.whatsapp }}</span>
+            </a>
+          </div>
+        </div>
+
+        <ul class="cta__list" data-reveal>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Primeira consulta sem custo</li>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Resposta em até 1 dia útil</li>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Convênios, Pix e 12x sem juros</li>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Urgência atendida no mesmo dia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEWSLETTER ================= -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="card card--flat" style="background: var(--ice-50); padding: clamp(1.5rem, 3vw, 2.5rem)" data-reveal>
+      <div class="grid grid--2" style="align-items: center">
+        <div>
+          <span class="eyebrow">{{ newsletter.title }}</span>
+          <p class="muted" style="margin-top: .75rem; max-width: 46ch">{{ newsletter.text }}</p>
+        </div>
+        <form data-newsletter style="display: flex; gap: .6rem; flex-wrap: wrap" action="." method="post">
+          <label class="sr-only" for="newsletter-email">Seu e-mail</label>
+          <input class="field__control" style="flex: 1 1 14rem" type="email" id="newsletter-email" name="email" placeholder="{{ newsletter.placeholder }}" required>
+          <button class="btn btn--navy" type="submit">{{ newsletter.button }}</button>
+        </form>
+      </div>
+      <p class="form-note" style="margin-top: 1rem">{{ newsletter.note }}</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

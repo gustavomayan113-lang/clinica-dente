@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}{{ servico.title }} | {{ clinic.name }} Odontologia{% endblock %}
+{% block description %}{{ servico.intro }} {{ servico.short }} Atendimento na Lumina Odontologia Integral, Alphaville — Barueri/SP.{% endblock %}
+
+{% block content %}
+
+<section class="detail-hero grain">
+  <span class="glow glow--blue" style="width: 26rem; height: 26rem; top: -10rem; right: -4rem"></span>
+
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Você está em" style="margin-bottom: 2rem">
+      <a href="/">Início</a> <span>/</span>
+      <a href="/servicos/">Tratamentos</a> <span>/</span>
+      <span>{{ servico.title }}</span>
+    </nav>
+
+    <div class="detail-hero__grid">
+      <div>
+        <span class="eyebrow" data-reveal>{{ servico.number }} · Tratamento</span>
+        <h1 class="h1" style="margin: 1rem 0" data-reveal>{{ servico.title }}</h1>
+        <p class="lead" data-reveal>{{ servico.intro }}</p>
+
+        <div class="detail-hero__facts" data-reveal>
+          <span class="pill">{{ servico.duration }}</span>
+          <span class="pill pill--solid">{{ servico.price }}</span>
+          <span class="pill">Avaliação digital incluída</span>
+        </div>
+
+        <div class="detail-hero__actions" data-reveal>
+          <a class="btn btn--primary btn--lg" href="/contato/" data-magnetic="0.25" data-cursor="Agendar">
+            <span>Agendar avaliação</span>
+            <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+          </a>
+          <a class="btn btn--outline btn--lg" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener">
+            <span>Tirar uma dúvida</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="detail-hero__media" data-reveal>
+        {% img servico.image servico.title width="900" height="720" loading="eager" %}
+        <span class="media__badge">{{ servico.duration }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container detail-body">
+    <div class="detail-content">
+      <span class="eyebrow" data-reveal>Sobre o tratamento</span>
+      <h2 data-split>Como o {{ servico.title|lower }} funciona aqui.</h2>
+      <p data-reveal>{{ servico.text }}</p>
+
+      <h3 data-reveal>O que está incluso</h3>
+      <ul class="checklist" data-reveal-group>
+        {% for item in servico.items %}
+          <li>{% icon "check-circle" 20 %} <span>{{ item }}</span></li>
+        {% endfor %}
+      </ul>
+
+      <h3 data-reveal>Cuidados depois do atendimento</h3>
+      <p data-reveal>
+        Cada caso recebe orientações escritas no seu prontuário digital, além de
+        um canal direto de mensagem para dúvida durante a recuperação. O
+        acompanhamento é parte do tratamento — não um extra.
+      </p>
+
+      <div class="card" style="background: var(--ice-50)" data-reveal>
+        <span class="card__index">Transparência</span>
+        <h3 class="card__title">Você aprova antes de começar</h3>
+        <p class="card__text">
+          Enviamos o orçamento com valores fechados, prazo por etapa e as
+          alternativas possíveis. Nada entra em execução sem sua assinatura.
+        </p>
+      </div>
+    </div>
+
+    <aside class="detail-aside" data-reveal>
+      <h3 style="font-size: var(--fs-h4)">Resumo</h3>
+      <dl>
+        <div class="detail-aside__row">
+          <dt>Duração</dt>
+          <dd>{{ servico.duration }}</dd>
+        </div>
+        <div class="detail-aside__row">
+          <dt>Investimento</dt>
+          <dd>{{ servico.price }}</dd>
+        </div>
+        <div class="detail-aside__row">
+          <dt>Primeira consulta</dt>
+          <dd>Sem custo</dd>
+        </div>
+        <div class="detail-aside__row">
+          <dt>Retorno do plano</dt>
+          <dd>Até 24h</dd>
+        </div>
+      </dl>
+
+      <a class="btn btn--primary btn--block" href="/contato/" data-magnetic="0.2">
+        <span>Quero esse tratamento</span>
+        <span class="btn__icon">{% icon "arrow-up-right" 15 %}</span>
+      </a>
+
+      <a class="btn btn--outline btn--block" href="{{ clinic.phone_link }}">{{ clinic.phone }}</a>
+
+      <p class="form-note">
+        Convênios aceitos na região, reembolso em saúde e parcelamento em até
+        12x sem juros para atendimento particular.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<section class="section section--ice">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>Continue explorando</span>
+      <h2 data-split>Outros tratamentos.</h2>
+    </div>
+
+    <div class="grid grid--3" data-reveal-group>
+      {% for item in outros %}
+        <article class="service-card" style="width: auto">
+          <div class="service-card__media">
+            <span class="service-card__number">{{ item.number }}</span>
+            {% img item.image item.title width="900" height="675" %}
+          </div>
+          <div class="service-card__body">
+            <span class="service-card__icon">{% icon item.icon 22 %}</span>
+            <h3 class="service-card__title">{{ item.title }}</h3>
+            <p class="service-card__text">{{ item.short }}</p>
+            <div class="service-card__meta">
+              <span>{{ item.duration }}</span>
+              <a class="link-arrow" href="/servicos/{{ item.slug }}/">
+                Detalhes {% icon "arrow-up-right" 15 %}
+              </a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta grain" data-reveal="scale">
+      <div class="cta__inner">
+        <div>
+          <span class="eyebrow eyebrow--invert">Pronto para começar?</span>
+          <h2 class="text-grad-invert" style="margin: 1rem 0" data-split>Sua avaliação começa em uma conversa.</h2>
+          <p class="lead" style="color: rgba(226,236,255,.7)">
+            Agende, venha conhecer a estrutura e saia com um plano escrito — mesmo
+            que a decisão final seja esperar mais um pouco.
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--invert btn--lg" href="/contato/" data-magnetic="0.25">
+              <span>Agendar avaliação</span>
+              <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+            </a>
+          </div>
+        </div>
+        <ul class="cta__list" data-reveal>
+          {% for item in faq %}
+            <li class="cta__list-item">{% icon "check-circle" 20 %} <span style="font-size: var(--fs-tiny)">{{ item.question }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

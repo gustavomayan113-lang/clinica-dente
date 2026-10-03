@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}Página não encontrada | {{ clinic.name }} Odontologia{% endblock %}
+{% block description %}A página que você procura não existe ou mudou de endereço. Volte para o início do site da Lumina Odontologia Integral.{% endblock %}
+
+{% block content %}
+<section class="error-page grain">
+  <span class="glow glow--blue" style="width: 26rem; height: 26rem; top: 10%; left: 12%"></span>
+
+  <div class="container container--text">
+    <span class="eyebrow eyebrow--center" data-reveal>Erro 404</span>
+    <p class="error-page__code" data-reveal="scale">404</p>
+    <h1 style="font-size: clamp(1.6rem, 3.4vw, 2.6rem); margin-top: 1.5rem" data-split>
+      Essa página sorriu para outro lugar.
+    </h1>
+    <p class="lead" style="margin: 1.25rem auto 0" data-reveal>
+      O endereço mudou, foi digitado errado ou nunca existiu. Que tal voltar para
+      o início e continuar de onde parou?
+    </p>
+
+    <div class="error-page__actions" data-reveal>
+      <a class="btn btn--primary btn--lg" href="/" data-magnetic="0.25">
+        <span>Voltar ao início</span>
+        <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+      </a>
+      <a class="btn btn--outline btn--lg" href="/servicos/">Ver tratamentos</a>
+    </div>
+
+    <div class="grid grid--3" style="margin-top: 4rem; text-align: left" data-reveal-group>
+      <a class="card" href="/servicos/">
+        <span class="card__index">Tratamentos</span>
+        <h2 class="card__title" style="font-size: 1.15rem">Oito frentes de atendimento</h2>
+        <p class="card__text">Do preventivo à reabilitação oral completa.</p>
+      </a>
+      <a class="card" href="/equipe/">
+        <span class="card__index">Equipe</span>
+        <h2 class="card__title" style="font-size: 1.15rem">Quatro especialistas</h2>
+        <p class="card__text">Conheça quem cuida do seu sorriso na Lumina.</p>
+      </a>
+      <a class="card" href="/contato/">
+        <span class="card__index">Contato</span>
+        <h2 class="card__title" style="font-size: 1.15rem">Fale com a gente</h2>
+        <p class="card__text">WhatsApp, telefone ou formulário — você escolhe.</p>
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

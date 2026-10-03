@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}Tratamentos e procedimentos | {{ clinic.name }} Odontologia{% endblock %}
+{% block description %}Implantes, aparelho invisível, clareamento, harmonização orofacial, odontopediatria e reabilitação oral na Lumina, Alphaville. Valores, duração e o que está incluso em cada tratamento.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero grain">
+  <span class="glow glow--blue" style="width: 30rem; height: 30rem; top: -12rem; right: -6rem"></span>
+  <div class="container page-hero__grid">
+    <div>
+      <nav class="breadcrumb" aria-label="Você está em">
+        <a href="/">Início</a> <span>/</span> <span>Tratamentos</span>
+      </nav>
+      <h1 class="page-hero__title" data-split-words>Oito tratamentos.<br>Um único <em>plano.</em></h1>
+      <p class="page-hero__lead">
+        Cada indicação começa com escuta e diagnóstico. Aqui está o que fazemos,
+        quanto tempo leva e por que vale a pena — sem linguagem de clínica.
+      </p>
+      <div class="page-hero__meta">
+        <span class="pill pill--glass">8 frentes de atendimento</span>
+        <span class="pill pill--glass">Orçamento em PDF</span>
+        <span class="pill pill--glass">Convênios e 12x</span>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card card--glass" data-reveal>
+        <span class="card__index">Como funciona</span>
+        <p class="card__text">
+          Todo tratamento da Lumina começa com a mesma escuta de 20 minutos e
+          termina com um plano escrito, com valores e prazos que você aprova antes
+          de qualquer procedimento.
+        </p>
+        <div class="card__footer">
+          <span style="font-size: var(--fs-tiny); color: rgba(226,236,255,.6)">Resposta em até 1 dia útil</span>
+          <a class="link-arrow" style="color: var(--blue-300)" href="/contato/">Agendar {% icon "arrow-up-right" 15 %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% for servico in services %}
+      <article class="service-item">
+        <div class="service-item__media" data-reveal="clip">
+          <span class="service-item__number">{{ servico.number }}</span>
+          {% img servico.image servico.title width="900" height="675" %}
+        </div>
+
+        <div class="service-item__body">
+          <span class="eyebrow" data-reveal>{{ servico.number }} · {{ servico.duration }}</span>
+          <h2 class="service-item__title" data-split>{{ servico.title }}</h2>
+          <p class="lead" data-reveal>{{ servico.short }}</p>
+
+          <ul class="checklist" data-reveal-group>
+            {% for item in servico.items %}
+              <li>{% icon "check" 18 %} <span>{{ item }}</span></li>
+            {% endfor %}
+          </ul>
+
+          <div class="service-item__facts" data-reveal>
+            <span class="pill">{{ servico.duration }}</span>
+            <span class="pill pill--solid">{{ servico.price }}</span>
+          </div>
+
+          <div class="row" data-reveal>
+            <a class="btn btn--navy" href="/servicos/{{ servico.slug }}/" data-magnetic="0.2">
+              <span>Ver detalhes</span>
+              <span class="btn__icon">{% icon "arrow-up-right" 15 %}</span>
+            </a>
+            <a class="btn btn--outline" href="/contato/">Quero esse tratamento</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--navy grain">
+  <span class="glow glow--sky" style="width: 26rem; height: 26rem; bottom: -12rem; right: 8%"></span>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow--invert" data-reveal>Perguntas frequentes</span>
+      <h2 class="text-grad-invert" data-split>Antes de decidir, esclareça.</h2>
+    </div>
+    <div class="faq" data-reveal>
+      {% for item in faq %}
+        <div class="faq__item {% if forloop.first %}is-open{% endif %}">
+          <button class="faq__trigger" type="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            <span>{{ item.question }}</span>
+            <span class="faq__sign" aria-hidden="true"></span>
+          </button>
+          <div class="faq__panel">
+            <div class="faq__panel-inner"><p>{{ item.answer }}</p></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta grain" data-reveal="scale">
+      <div class="cta__inner">
+        <div>
+          <span class="eyebrow eyebrow--invert">Vamos conversar</span>
+          <h2 class="text-grad-invert" style="margin: 1rem 0" data-split>Qual tratamento faz sentido para você?</h2>
+          <p class="lead" style="color: rgba(226,236,255,.7)">
+            Conte o que te incomoda e receba uma opinião honesta — inclusive quando
+            a melhor resposta é não tratar agora.
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--invert btn--lg" href="/contato/" data-magnetic="0.25">
+              <span>Agendar avaliação</span>
+              <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+            </a>
+            <a class="btn btn--ghost-light btn--lg" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener">
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+        <ul class="cta__list" data-reveal>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Primeira consulta sem custo</li>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Plano escrito em até 24h</li>
+          <li class="cta__list-item">{% icon "check-circle" 20 %} Simulação digital do resultado</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

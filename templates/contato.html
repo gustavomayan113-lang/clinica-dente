@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}Contato e agendamento | {{ clinic.name }} Odontologia{% endblock %}
+{% block description %}Agende sua avaliação na Lumina Odontologia Integral em Alphaville, Barueri/SP. Telefone, WhatsApp, endereço, horários e formulário de contato.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero grain">
+  <span class="glow glow--blue" style="width: 28rem; height: 28rem; top: -12rem; right: -4rem"></span>
+  <div class="container page-hero__grid">
+    <div>
+      <nav class="breadcrumb" aria-label="Você está em">
+        <a href="/">Início</a> <span>/</span> <span>Contato</span>
+      </nav>
+      <h1 class="page-hero__title" data-split-words>Vamos cuidar<br>do seu <em>sorriso.</em></h1>
+      <p class="page-hero__lead">
+        Preencha o formulário, chame no WhatsApp ou ligue direto. A primeira
+        conversa é por nossa conta e sem compromisso.
+      </p>
+      <div class="page-hero__meta">
+        <span class="pill pill--glass">{% icon "phone" 14 %} {{ clinic.phone }}</span>
+        <span class="pill pill--glass">Resposta em até 1 dia útil</span>
+        <span class="pill pill--glass">Urgência no mesmo dia</span>
+      </div>
+    </div>
+
+    <div class="card card--glass" data-reveal>
+      <span class="card__index">Atendimento</span>
+      <h2 class="card__title" style="font-size: var(--fs-h3)">{{ clinic.address }}</h2>
+      <p class="card__text">{{ clinic.city }}</p>
+      <div class="card__footer">
+        <span style="font-size: var(--fs-tiny); color: rgba(226,236,255,.6)">{{ clinic.cro }}</span>
+        <a class="link-arrow" style="color: var(--blue-300)" href="https://maps.google.com/?q={{ clinic.coords }}" target="_blank" rel="noopener">
+          Abrir rota {% icon "arrow-up-right" 15 %}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="formulario">
+  <div class="container contact__grid">
+    <div>
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Agendamento</span>
+        <h2 data-split>Conte o que você precisa.</h2>
+      </div>
+
+      {% if enviado %}
+        <div class="form-status form-status--ok is-visible" style="margin-bottom: 1.5rem" data-reveal>
+          {% icon "check-circle" 22 %}
+          <span>
+            <strong>Recebemos seu contato.</strong> Nossa equipe responde em até um dia
+            útil pelo e-mail ou WhatsApp informado. Se for urgência, ligue para
+            <a class="link-underline" href="{{ clinic.phone_link }}">{{ clinic.phone }}</a>.
+          </span>
+        </div>
+      {% endif %}
+
+      <form class="form" method="post" action="{% url 'clinica:contato' %}" data-form data-reveal novalidate>
+        {% csrf_token %}
+
+        <div class="form-status form-status--ok" data-form-status aria-live="polite"></div>
+
+        <div class="form__grid form__grid--2">
+          <div class="field {% if erros.nome %}has-error{% endif %}">
+            <label class="field__label" for="nome">Nome completo</label>
+            <input class="field__control" type="text" id="nome" name="nome" placeholder="Como podemos te chamar?" value="{{ form.nome }}" required>
+            <span class="field__error">{{ erros.nome|default:"" }}</span>
+          </div>
+
+          <div class="field {% if erros.telefone %}has-error{% endif %}">
+            <label class="field__label" for="telefone">WhatsApp</label>
+            <input class="field__control" type="tel" id="telefone" name="telefone" placeholder="(11) 99999-0000" value="{{ form.telefone }}" required>
+            <span class="field__error">{{ erros.telefone|default:"" }}</span>
+          </div>
+        </div>
+
+        <div class="field {% if erros.email %}has-error{% endif %}">
+          <label class="field__label" for="email">E-mail</label>
+          <input class="field__control" type="email" id="email" name="email" placeholder="voce@email.com.br" value="{{ form.email }}" required>
+          <span class="field__error">{{ erros.email|default:"" }}</span>
+        </div>
+
+        <div class="form__grid form__grid--2">
+          <div class="field {% if erros.assunto %}has-error{% endif %}">
+            <label class="field__label" for="assunto">Assunto</label>
+            <select class="field__control" id="assunto" name="assunto" required>
+              <option value="">Selecione um assunto</option>
+              {% for item in subjects %}
+                <option value="{{ item }}" {% if form.assunto == item %}selected{% endif %}>{{ item }}</option>
+              {% endfor %}
+            </select>
+            <span class="field__error">{{ erros.assunto|default:"" }}</span>
+          </div>
+
+          <div class="field {% if erros.preferencia %}has-error{% endif %}">
+            <label class="field__label" for="preferencia">Melhor horário</label>
+            <select class="field__control" id="preferencia" name="preferencia" required>
+              <option value="">Prefiro...</option>
+              {% for item in times %}
+                <option value="{{ item }}" {% if form.preferencia == item %}selected{% endif %}>{{ item }}</option>
+              {% endfor %}
+            </select>
+            <span class="field__error">{{ erros.preferencia|default:"" }}</span>
+          </div>
+        </div>
+
+        <div class="field {% if erros.mensagem %}has-error{% endif %}">
+          <label class="field__label" for="mensagem">Mensagem</label>
+          <textarea class="field__control" id="mensagem" name="mensagem" placeholder="Conte rapidinho o que está te incomodando ou o que você quer melhorar." required>{{ form.mensagem }}</textarea>
+          <span class="field__error">{{ erros.mensagem|default:"" }}</span>
+        </div>
+
+        <div class="form__footer">
+          <p class="form-note">
+            Usamos seus dados apenas para responder ao contato. Nenhuma lista,
+            nenhum compartilhamento.
+          </p>
+          <button class="btn btn--primary btn--lg" type="submit" data-form-submit>
+            <span>Enviar mensagem</span>
+            <span class="btn__icon">{% icon "arrow-up-right" 16 %}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="contact__side">
+      <a class="info-card" href="{{ clinic.phone_link }}" data-reveal>
+        <span class="info-card__icon">{% icon "phone" 22 %}</span>
+        <span class="info-card__body">
+          <span class="info-card__label">Telefone</span>
+          <span class="info-card__value">{{ clinic.phone }}</span>
+          <span class="info-card__note">Seg a sex, 8h às 19h</span>
+        </span>
+      </a>
+
+      <a class="info-card" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener" data-reveal>
+        <span class="info-card__icon">{% icon "whatsapp" 22 %}</span>
+        <span class="info-card__body">
+          <span class="info-card__label">WhatsApp</span>
+          <span class="info-card__value">{{ clinic.whatsapp }}</span>
+          <span class="info-card__note">Resposta média em 15 minutos</span>
+        </span>
+      </a>
+
+      <a class="info-card" href="mailto:{{ clinic.email }}" data-reveal>
+        <span class="info-card__icon">{% icon "mail" 22 %}</span>
+        <span class="info-card__body">
+          <span class="info-card__label">E-mail</span>
+          <span class="info-card__value">{{ clinic.email }}</span>
+          <span class="info-card__note">Para orçamentos e convênios</span>
+        </span>
+      </a>
+
+      <div class="card" data-reveal style="gap: .75rem">
+        <span class="card__index">Horários</span>
+        <dl class="footer__hours" style="color: var(--ink)">
+          {% for row in hours %}
+            <div class="footer__hour" style="border-bottom-color: var(--line)">
+              <dt style="color: var(--muted)">{{ row.days }}</dt>
+              <dd style="font-weight: 600">{{ row.hours }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+      </div>
+
+      <div class="map-card" data-reveal>
+        {% img "contato/estrutura.webp" "Fachada e acesso da clínica Lumina" width="1400" height="875" %}
+        <span class="map-card__pin" aria-hidden="true"><span>{% icon "map-pin" 18 %}</span></span>
+        <div class="map-card__actions">
+          <a class="btn btn--invert btn--sm" href="https://maps.google.com/?q={{ clinic.coords }}" target="_blank" rel="noopener">
+            {% icon "map-pin" 15 %} <span>Como chegar</span>
+          </a>
+          <a class="btn btn--ghost-light btn--sm" href="https://www.instagram.com/{{ clinic.instagram }}/" target="_blank" rel="noopener">
+            {% icon "instagram" 15 %} <span>{{ clinic.instagram }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--navy grain">
+  <span class="glow glow--sky" style="width: 24rem; height: 24rem; bottom: -12rem; left: 10%"></span>
+  <div class="container faq__layout">
+    <div>
+      <div class="section-head">
+        <span class="eyebrow eyebrow--invert" data-reveal>Dúvidas frequentes</span>
+        <h2 class="text-grad-invert" data-split>Antes de escrever para a gente.</h2>
+      </div>
+
+      <div class="faq" data-reveal>
+        {% for item in faq %}
+          <div class="faq__item {% if forloop.first %}is-open{% endif %}">
+            <button class="faq__trigger" type="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              <span>{{ item.question }}</span>
+              <span class="faq__sign" aria-hidden="true"></span>
+            </button>
+            <div class="faq__panel">
+              <div class="faq__panel-inner"><p>{{ item.answer }}</p></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <aside class="faq__aside" data-reveal="clip">
+      {% img "contato/recepcao.webp" "Recepção da clínica Lumina" width="900" height="1200" %}
+      <div class="faq__aside-card">
+        <p style="font-size: var(--fs-tiny); color: var(--muted); margin-bottom: .35rem">Prefere falar agora?</p>
+        <p class="faq__aside-phone">{{ clinic.phone }}</p>
+        <a class="btn btn--navy btn--sm btn--block" style="margin-top: 1rem" href="{{ clinic.whatsapp_link }}" target="_blank" rel="noopener">
+          <span>Chamar no WhatsApp</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+{% endblock %}

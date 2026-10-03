@@ -1,0 +1,33 @@
+{% load static site_tags %}
+
+<header class="header{% if hero_dark %} header--on-dark{% endif %}">
+  <div class="header__inner">
+    <a class="brand" href="/" aria-label="{{ clinic.full_name }} — página inicial">
+      {% logo 38 %}
+      <span class="brand__text">
+        <span class="brand__name">Lumina</span>
+        <span class="brand__sub">Odontologia Integral</span>
+      </span>
+    </a>
+
+    <nav class="header__nav" aria-label="Navegação principal">
+      {% for item in nav %}
+        <a class="header__link" href="{{ item.href }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header__actions">
+      <a class="header__phone" href="{{ clinic.phone_link }}">
+        {% icon "phone" 17 %}
+        <span>{{ clinic.phone }}</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="/contato/" data-magnetic="0.2" data-cursor="Agendar">
+        <span>Agendar</span>
+        <span class="btn__icon">{% icon "arrow-up-right" 14 %}</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu" aria-controls="menu-mobile">
+        <span class="menu-toggle__bars"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Lumina — estados de animação (ativados apenas com JavaScript disponível)
+   ========================================================================== */
+
+/* --- Estados iniciais (evitados quando o JS não roda) -------------------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  will-change: transform, opacity;
+}
+
+.js [data-reveal="fade"] {
+  transform: none;
+}
+
+.js [data-reveal="left"] {
+  transform: translate3d(-40px, 0, 0);
+}
+
+.js [data-reveal="right"] {
+  transform: translate3d(40px, 0, 0);
+}
+
+.js [data-reveal="scale"] {
+  transform: scale(0.94);
+}
+
+/* Revelação em máscara (imagens e blocos de destaque) */
+.js [data-reveal="clip"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+}
+
+.js [data-reveal="clip"] > img,
+.js [data-reveal="clip"] > .media img {
+  transform: scale(1.22);
+  will-change: transform;
+}
+
+/* Títulos quebrados em linhas por JS */
+.js [data-split] .line {
+  display: block;
+  overflow: hidden;
+}
+
+.js [data-split] .line__inner {
+  display: block;
+  transform: translateY(105%);
+  will-change: transform;
+}
+
+/* Títulos quebrados em palavras/caracteres */
+.js [data-split-chars] .char {
+  display: inline-block;
+  transform: translateY(112%) rotate(4deg);
+  opacity: 0;
+  will-change: transform;
+}
+
+/* Hero: sequência de entrada */
+.js .hero__title .word,
+.js [data-split-words] .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.js .hero__title .word__inner,
+.js [data-split-words] .word__inner {
+  display: inline-block;
+  transform: translateY(115%);
+  will-change: transform;
+}
+
+.js .hero [data-hero-item] {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+/* Linha do tempo da jornada */
+.js .journey__line span {
+  transform: scaleX(0);
+}
+
+/* Fallback: se o GSAP não carregar, tudo aparece */
+.no-gsap [data-reveal],
+.no-gsap [data-reveal="fade"],
+.no-gsap [data-reveal="left"],
+.no-gsap [data-reveal="right"],
+.no-gsap [data-reveal="scale"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.no-gsap [data-reveal="clip"] {
+  clip-path: none !important;
+}
+
+.no-gsap [data-reveal="clip"] > img,
+.no-gsap [data-reveal="clip"] > .media img {
+  transform: none !important;
+}
+
+.no-gsap [data-split] .line__inner,
+.no-gsap .hero__title .word__inner,
+.no-gsap [data-split-words] .word__inner {
+  transform: none !important;
+}
+
+.no-gsap [data-split-chars] .char {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.no-gsap [data-hero-item] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.no-gsap .journey__line span {
+  transform: none !important;
+}
+
+/* --- Utilidades de movimento -------------------------------------------- */
+.js [data-parallax] {
+  will-change: transform;
+}
+
+.hero__media-main img {
+  will-change: transform;
+}
+
+/* Enquanto o menu mobile anima, trava a rolagem do Lenis */
+.is-locked .mobile-menu {
+  pointer-events: auto;
+}
+
+/* Estado inicial do cursor customizado */
+.js .cursor-dot,
+.js .cursor-ring {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.js .cursor-dot.is-ready,
+.js .cursor-ring.is-ready {
+  opacity: 1;
+}
+
+/* Barras do menu: garante transição suave no primeiro paint */
+.menu-toggle__bars span {
+  transition: transform 0.45s var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
