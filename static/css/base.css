@@ -57,6 +57,18 @@ textarea {
   color: inherit;
 }
 
+button,
+[role="button"],
+a,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 button {
   cursor: pointer;
   background: none;
@@ -356,17 +368,26 @@ p {
   gap: clamp(1rem, 2vw, 1.75rem);
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 34rem) {
   .grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Sem este degrau, tablets e celulares grandes caíam direto de 1 para 4
+     colunas e as seções viravam uma coluna só, altíssima. */
+  .grid--3,
+  .grid--4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 62rem) {
+@media (min-width: 48rem) {
   .grid--3 {
     grid-template-columns: repeat(3, 1fr);
   }
+}
 
+@media (min-width: 62rem) {
   .grid--4 {
     grid-template-columns: repeat(4, 1fr);
   }

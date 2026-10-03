@@ -59,11 +59,12 @@
   }
 
   function splitLines(element) {
-    if (!element || element.dataset.splitDone) return [];
-    element.dataset.splitDone = "true";
-
+    // `splitWords` já registra `splitDone`; duplicar a guarda aqui fazia o
+    // `splitLines` devolver sempre vazio e o título nunca era quebrado.
+    if (!element) return [];
     const words = splitWords(element);
     if (!words.length) return [];
+    element.dataset.splitDone = "true";
 
     const lines = [];
     let currentTop = null;
@@ -215,35 +216,105 @@
     });
   }
 
-  /* --- Títulos com quebra em linhas -------------------------------------- */
-  function initSplitHeadings() {
-    $$("[data-split]").forEach((heading) => {
-      const lines = splitLines(heading);
-      if (!lines.length) return;
-      gsap.to(lines, {
-        y: 0,
+  /* --- Títulos com quebra em linhas --------------------------------------
+     A quebra por linhas depende da métrica real da fonte e da largura do
+     container. Medir antes do `document.fonts.ready` (ou sem refazer a
+     medida quando a tela muda de largura) deixa cada `.line` com o texto
+     re-quebrado dentro de uma caixa `overflow: hidden` — e o título aparece
+     cortado. Por isso: espera as fontes, requebra ao redimensionar e, em
+     telas estreitas, usa quebra por palavra (sem máscara, não há como cortar). */
+
+  const SPLIT_NARROW = "(max-width: 47.99rem)";
+  const originalMarkup = new WeakMap();
+  const splitTweens = new WeakMap();
+
+  const rememberMarkup = (element) => {
+    if (!originalMarkup.has(element)) originalMarkup.set(element, element.innerHTML);
+    return originalMarkup.get(element);
+  };
+
+  const resetSplit = (element) => {
+    const tween = splitTweens.get(element);
+    if (tween) {
+      if (tween.scrollTrigger) tween.scrollTrigger.kill();
+      tween.kill();
+      splitTweens.delete(element);
+    }
+    element.innerHTML = originalMarkup.get(element) || element.innerHTML;
+    delete element.dataset.splitDone;
+  };
+
+  const animateParts = (element, parts, offset, stagger, start) => {
+    if (!parts.length) return;
+    gsap.set(parts, { yPercent: offset });
+    splitTweens.set(
+      element,
+      gsap.to(parts, {
+        yPercent: 0,
         duration: 1.1,
         ease: EASE,
-        stagger: 0.09,
-        scrollTrigger: { trigger: heading, start: "top 86%", once: true },
-      });
-    });
+        stagger,
+        scrollTrigger: { trigger: element, start, once: true },
+      })
+    );
+  };
 
-    // Títulos com marcação inline (<em>, <br>) — quebra por palavras para
-    // preservar o estilo do conteúdo.
-    $$("[data-split-words]").forEach((heading) => {
-      const words = splitWords(heading);
-      if (!words.length) return;
-      gsap.to(words, {
-        yPercent: 0,
-        y: 0,
-        rotate: 0,
-        duration: 1.15,
-        ease: EASE,
-        stagger: 0.05,
-        scrollTrigger: { trigger: heading, start: "top 88%", once: true },
+  function splitHeading(heading) {
+    rememberMarkup(heading);
+    resetSplit(heading);
+
+    if (window.matchMedia(SPLIT_NARROW).matches) {
+      // Sem caixa de máscara: cada palavra sobe no lugar e nada é cortado.
+      animateParts(heading, splitWords(heading), 70, 0.035, "top 88%");
+      return;
+    }
+
+    animateParts(heading, splitLines(heading), 105, 0.09, "top 86%");
+  }
+
+  function initSplitHeadings() {
+    const headings = $$("[data-split], [data-split-words]");
+
+    headings.forEach((heading) => rememberMarkup(heading));
+
+    const build = () => {
+      $$("[data-split]").forEach(splitHeading);
+
+      // Títulos com marcação inline (<em>, <br>) — quebra por palavras para
+      // preservar o estilo do conteúdo.
+      $$("[data-split-words]").forEach((heading) => {
+        resetSplit(heading);
+        animateParts(heading, splitWords(heading), 115, 0.05, "top 88%");
       });
-    });
+
+      ScrollTrigger.refresh();
+    };
+
+    const waitForFonts = () => {
+      if (!document.fonts || !document.fonts.ready) return Promise.resolve();
+      const ready = document.fonts.ready;
+      return Promise.race([ready, new Promise((resolve) => setTimeout(resolve, 1500))]);
+    };
+
+    let lastWidth = window.innerWidth;
+    let timer = null;
+
+    const scheduleBuild = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const width = window.innerWidth;
+        // Requebra só quando a largura muda o bastante para alterar as linhas
+        // (evita refazer a cada resize do address bar no mobile).
+        if (Math.abs(width - lastWidth) < 80) return;
+        lastWidth = width;
+        waitForFonts().then(build);
+      }, 220);
+    };
+
+    waitForFonts().then(build);
+
+    window.addEventListener("resize", scheduleBuild);
+    window.addEventListener("orientationchange", scheduleBuild);
   }
 
   /* --- Contadores -------------------------------------------------------- */

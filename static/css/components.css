@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
+  max-width: 100%;
   padding: 0.95rem 1.6rem;
   border-radius: var(--radius-pill);
   background: var(--btn-bg);
@@ -126,6 +127,43 @@
 
 .btn--block {
   width: 100%;
+}
+
+/* Rotulos longos ("WhatsApp (11) 91234-5678") estouravam a tela em telas
+   estreitas porque o botão nunca quebrava a linha. */
+@media (max-width: 30rem) {
+  .btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  .btn__icon {
+    flex: 0 0 auto;
+  }
+}
+
+/* Alvos de toque: nada abaixo de 44px quando o dedo é o ponteiro. */
+@media (hover: none), (pointer: coarse) {
+  .btn,
+  .btn--sm {
+    min-height: 2.75rem;
+  }
+
+  .btn--lg {
+    min-height: 3.25rem;
+  }
+
+  .link-arrow,
+  .link-underline {
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .faq__sign {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
 /* Setas em link textual */
@@ -636,12 +674,14 @@
 
 .field__control {
   width: 100%;
+  /* Nunca abaixo de 16px: o Safari do iOS aplica zoom automático ao focar
+     um campo menor que isso e a página "desconfigura" ao sair do campo. */
+  font-size: max(1rem, var(--fs-small));
   padding: 1.05rem 1.15rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
   background: var(--ice-50);
   color: var(--ink);
-  font-size: var(--fs-small);
   transition:
     border-color var(--dur-fast) var(--ease-out),
     background-color var(--dur-fast) var(--ease-out),
